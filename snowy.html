@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy 17th Birthday</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            width: 100vw;
+            height: 100vh;
+            background: black;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        /* NAME SCREEN */
+        #nameScreen {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .name-box {
+            width: 300px;
+            background: #eeeeee;
+            border: 2px solid black;
+            box-shadow: 5px 5px 0px #555;
+        }
+
+        .title-bar {
+            background: #000080;
+            color: white;
+            padding: 6px;
+            font-size: 13px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .name-content {
+            padding: 25px;
+            text-align: center;
+            color: black;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 15px;
+            font-size: 16px;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 8px 20px;
+            cursor: pointer;
+        }
+
+        /* POPUPS */
+        .popup {
+            position: absolute;
+            width: 280px;
+            background: #eeeeee;
+            border: 2px solid black;
+            box-shadow: 5px 5px 0px #555;
+        }
+
+        .close-btn {
+            background: #c0c0c0;
+            color: black;
+            border: 2px outset white;
+            width: 22px;
+            height: 22px;
+            text-align: center;
+            line-height: 17px;
+            cursor: pointer;
+            font-family: Arial;
+            font-weight: bold;
+        }
+
+        .message {
+            color: black;
+            padding: 25px 15px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        #error {
+            color: red;
+            font-size: 13px;
+            margin-top: 10px;
+        }
+		.final-screen {
+            width: 100vw;
+            height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background: black;
+            color: white;
+
+            font-size: 50px;
+            font-weight: bold;
+            text-align: center;
+
+            padding: 20px;
+}
+    </style>
+</head>
+
+<body>
+
+    <!-- NAME ENTRY SCREEN -->
+    <div id="nameScreen">
+
+        <div class="name-box">
+
+            <div class="title-bar">
+                WHO ARE YOU?
+            </div>
+
+            <div class="name-content">
+
+                <div>Enter your name:</div>
+
+                <input
+                    type="text"
+                    id="nameInput"
+                    placeholder="Your name"
+                    autocomplete="off"
+                >
+
+                <br>
+
+                <button onclick="checkName()">Enter</button>
+
+                <div id="error"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+	 const messages = [
+        "HAPPY BIRTHDAY HARLEEIN",
+        "A.K.A LARP QUEEN",
+        "hopee you have a goodd one, but soundss like I ruined itt",
+        "im sorryy forr thatt (im not)",
+        "tooo more titles to be captureddd",
+        "tooo more making mum and dad prouddd",
+        "an inspirationn to brotherrr",
+        "and yeahhh, stayyy healthyyy always",
+        "stayyy safe always",
+        "most importantlyy stayyy happyyy always",
+        "and mayy the worlddd be kinderr to youu (i wont)",
+        "im not trying tooo win yourrr heart or smthingg",
+        "i justt wanteddd to wishh youu nyy",
+        "dont gett me wrongggg :)",
+        "... goodbyeee"
+    ];
+
+    let currentMessage = 0;
+
+
+    function checkName() {
+
+        const name = document
+            .getElementById("nameInput")
+            .value
+            .trim()
+            .toLowerCase();
+
+        const error = document.getElementById("error");
+
+        if (name === "harleein") {
+
+            document.getElementById("nameScreen").style.display = "none";
+
+            createPopup();
+
+        } else {
+
+            error.innerText = "nahhh thats not youu dumbassss 🤨";
+
+        }
+    }
+
+
+    function createPopup() {
+
+        // All messages finished
+        if (currentMessage >= messages.length) {
+            showFinalScreen();
+            return;
+        }
+
+        const popup = document.createElement("div");
+
+        popup.className = "popup";
+
+
+        /* RANDOM POSITION */
+
+        const maxX = Math.max(10, window.innerWidth - 300);
+        const maxY = Math.max(10, window.innerHeight - 150);
+
+        const randomX = Math.random() * maxX;
+        const randomY = Math.random() * maxY;
+
+        popup.style.left = randomX + "px";
+        popup.style.top = randomY + "px";
+
+
+        /* TITLE BAR */
+
+        const titleBar = document.createElement("div");
+
+        titleBar.className = "title-bar";
+
+        titleBar.innerHTML = `
+            <span>Message</span>
+            <span class="close-btn">X</span>
+        `;
+
+
+        /* MESSAGE */
+
+        const message = document.createElement("div");
+
+        message.className = "message";
+
+        message.innerText = messages[currentMessage];
+
+
+        popup.appendChild(titleBar);
+        popup.appendChild(message);
+
+        document.body.appendChild(popup);
+
+
+        /* X BUTTON */
+
+        const closeButton = popup.querySelector(".close-btn");
+
+        closeButton.onclick = function () {
+
+            popup.remove();
+
+            currentMessage++;
+
+            createPopup();
+
+        };
+    }
+
+
+    /* FINAL SCREEN */
+
+    function showFinalScreen() {
+
+        document.body.innerHTML = `
+            <div class="final-screen">
+                CONGRATS YOU'RE 17 🎉
+            </div>
+        `;
+    }
+
+
+    /* PRESS ENTER ON NAME SCREEN */
+
+    document
+        .getElementById("nameInput")
+        .addEventListener("keydown", function(event) {
+
+            if (event.key === "Enter") {
+                checkName();
+            }
+
+        });
+
+
+        
+
+    </script>
+
+</body>
+</html>
